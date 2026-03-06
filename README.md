@@ -50,7 +50,7 @@ nix run github:codemanufacture/magento-package-overlay#magento-cache-clean
 
 ## Updates
 
-Packages are automatically updated every 6 hours via GitHub Actions. The update script can also be run manually:
+Packages are automatically checked for updates daily at 06:00 UTC via GitHub Actions. The update script can also be run manually:
 
 ```sh
 ./update.sh
