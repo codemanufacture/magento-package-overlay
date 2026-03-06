@@ -24,10 +24,7 @@
       packages = forAllSystems (
         system:
         let
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = [ self.overlays.default ];
-          };
+          pkgs = nixpkgs.legacyPackages.${system}.extend self.overlays.default;
         in
         {
           inherit (pkgs) magento-cache-clean n98-magerun2;
