@@ -4,10 +4,11 @@ Nix overlay providing up-to-date Magento development tools.
 
 ## Packages
 
-| Package | Version | Source |
-|---------|---------|--------|
-| `n98-magerun2` | 9.3.0 | [netz98/n98-magerun2](https://github.com/netz98/n98-magerun2) |
-| `magento-cache-clean` | 1.1.4-unstable | [mage-os/magento-cache-clean](https://github.com/mage-os/magento-cache-clean) |
+| Package | Source |
+|---------|--------|
+| `n98-magerun2` | [netz98/n98-magerun2](https://github.com/netz98/n98-magerun2) |
+| `magento-cache-clean` | [mage-os/magento-cache-clean](https://github.com/mage-os/magento-cache-clean) |
+| `magento-cache-clean-el` | [emacs-magento/magento-cache-clean.el](https://github.com/emacs-magento/magento-cache-clean.el) |
 
 ## Usage
 
@@ -39,6 +40,17 @@ Nix overlay providing up-to-date Magento development tools.
     };
   };
 }
+```
+
+### Emacs package
+
+The `magento-cache-clean-el` package is available under `emacsPackages`. To use it with home-manager:
+
+```nix
+programs.emacs = {
+  enable = true;
+  extraPackages = epkgs: [ pkgs.magento-cache-clean-el ];
+};
 ```
 
 ### Run directly
