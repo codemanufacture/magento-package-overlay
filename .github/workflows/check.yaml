@@ -1,0 +1,26 @@
+name: Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: cachix/install-nix-action@v31
+
+      - name: Build magento-cache-clean
+        run: nix build -L .#magento-cache-clean
+
+      - name: Build n98-magerun2
+        run: nix build -L .#n98-magerun2
+
+      - name: Check flake
+        run: nix flake check -L
