@@ -18,6 +18,7 @@
     {
       overlays.default = final: prev: {
         magento-cache-clean = final.callPackage ./pkgs/magento-cache-clean/package.nix { };
+        magento-cache-clean-el = final.callPackage ./pkgs/magento-cache-clean-el/package.nix { };
         n98-magerun2 = final.callPackage ./pkgs/n98-magerun2/package.nix { };
       };
 
@@ -27,7 +28,7 @@
           pkgs = nixpkgs.legacyPackages.${system}.extend self.overlays.default;
         in
         {
-          inherit (pkgs) magento-cache-clean n98-magerun2;
+          inherit (pkgs) magento-cache-clean magento-cache-clean-el n98-magerun2;
         }
       );
     };

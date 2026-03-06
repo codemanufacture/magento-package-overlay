@@ -79,5 +79,39 @@ update_magento_cache_clean() {
   echo "Updated magento-cache-clean to $latest_commit ($commit_date)"
 }
 
+update_magento_cache_clean_el() {
+  echo "Checking magento-cache-clean.el..."
+  local pkg_file="$SCRIPT_DIR/pkgs/magento-cache-clean-el/package.nix"
+  local current_rev
+  current_rev=$(grep 'rev = "' "$pkg_file" | sed 's/.*rev = "\(.*\)".*/\1/')
+
+  local latest_commit
+  latest_commit=$(curl -sL 'https://api.github.com/repos/emacs-magento/magento-cache-clean.el/commits?per_page=1' | jq -r '.[0].sha')
+  local commit_date
+  commit_date=$(curl -sL "https://api.github.com/repos/emacs-magento/magento-cache-clean.el/commits/$latest_commit" | jq -r '.commit.committer.date' | cut -dT -f1)
+
+  if [ "$current_rev" = "$latest_commit" ]; then
+    echo "magento-cache-clean.el is up to date at $current_rev"
+    return
+  fi
+
+  echo "Updating magento-cache-clean.el $current_rev -> $latest_commit"
+
+  local new_hash
+  new_hash=$(nix-prefetch-url --unpack "https://github.com/emacs-magento/magento-cache-clean.el/archive/${latest_commit}.tar.gz" 2>/dev/null | tail -1)
+  new_hash=$(nix hash convert --hash-algo sha256 --to sri "$new_hash")
+
+  local base_version
+  base_version=$(grep 'version = "' "$pkg_file" | sed 's/.*version = "\([^-]*\).*/\1/')
+  local new_version="${base_version}-unstable-${commit_date}"
+
+  sed -i "s|version = \".*\"|version = \"$new_version\"|" "$pkg_file"
+  sed -i "s|rev = \".*\"|rev = \"$latest_commit\"|" "$pkg_file"
+  sed -i "s|hash = \"sha256-.*\"|hash = \"$new_hash\"|" "$pkg_file"
+
+  echo "Updated magento-cache-clean.el to $latest_commit ($commit_date)"
+}
+
 update_n98_magerun2
 update_magento_cache_clean
+update_magento_cache_clean_el
