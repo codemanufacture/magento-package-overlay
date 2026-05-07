@@ -8,13 +8,13 @@
 
 stdenv.mkDerivation {
   pname = "magento-cache-clean";
-  version = "1.1.4-unstable-2025-10-28";
+  version = "1.1.4-unstable-2026-05-07";
 
   src = fetchFromGitHub {
     owner = "mage-os";
     repo = "magento-cache-clean";
-    rev = "1aa55fda2769f14c83abd358f026946e67d60880";
-    hash = "sha256-BbKS1b1nYkbFnIry+m7vh98DV5H734lHhnLMldWcg/0=";
+    rev = "6826efb6ce29e912467aeca7bb3a03f00f9828fe";
+    hash = "sha256-sErYYccMaB4fqR1uoUVrSSFR7TsAkfk+hgw+1i5M5dU=";
   };
 
   nativeBuildInputs = [ makeWrapper ];
