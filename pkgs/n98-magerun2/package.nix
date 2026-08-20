@@ -6,16 +6,16 @@
 
 php83.buildComposerProject2 (finalAttrs: {
   pname = "n98-magerun2";
-  version = "9.5.1";
+  version = "10.0.0";
 
   src = fetchFromGitHub {
     owner = "netz98";
     repo = "n98-magerun2";
     tag = finalAttrs.version;
-    hash = "sha256-OLB3/G3Yn6CIzawtHpzS+RYXpioPv0oReyRYMKx5AiI=";
+    hash = "sha256-WwsvaS1RvsqDwSJVBUVmTf6hiWhsIvNb0qC4q7yx9PY=";
   };
 
-  vendorHash = "sha256-pbxcpDhi/1pmeZFqAFn8GNokfDoYzxzDt3RmE8pGW68=";
+  vendorHash = "sha256-ZUTgOJC026/d+57FNc+ivSkbEQEk/LSJCOgdfPaz6cY=";
 
   meta = {
     changelog = "https://magerun.net/category/magerun/";
