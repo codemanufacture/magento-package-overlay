@@ -18,7 +18,7 @@ emacsPackages.trivialBuild {
 
   postPatch = ''
     substituteInPlace magento-cache-clean.el \
-      --replace-fail '"cache-clean"' '"${magento-cache-clean}/bin/cache-clean"'
+      --replace-fail '("cache-clean" . nil)' '("cache-clean" . nil) ("${magento-cache-clean}/bin/cache-clean" . nil)'
   '';
 
   meta = {
