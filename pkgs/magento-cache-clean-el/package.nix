@@ -7,13 +7,13 @@
 
 emacsPackages.trivialBuild {
   pname = "magento-cache-clean";
-  version = "0.1.0-unstable-2026-10-15";
+  version = "0.1.0-unstable-2026-10-22";
 
   src = fetchFromGitHub {
     owner = "emacs-magento";
     repo = "magento-cache-clean.el";
-    rev = "8d7102675188ed8fd6cf66479d58cca1a3c5fda1";
-    hash = "sha256-oRmAgT/Vwl7olZ6LHjhNAM1FUUVmnWC+qnKj6jwuODU=";
+    rev = "2ab0511deb4989f6c00d3c21c85843c2acfb9128";
+    hash = "sha256-ssXVlO0R7syjgTbNhDOKWhiSJpL5GtUNwiT88hsYQLQ=";
   };
 
   postPatch = ''
