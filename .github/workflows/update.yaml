@@ -34,6 +34,7 @@ jobs:
           MSG=$(git diff --cached --name-only | while read -r f; do
             case "$f" in
               *n98-magerun2*) grep 'version = "' pkgs/n98-magerun2/package.nix | sed 's/.*"\(.*\)".*/n98-magerun2 \1/' ;;
+              *magento-cache-clean-el*) grep 'version = "' pkgs/magento-cache-clean-el/package.nix | sed 's/.*"\(.*\)".*/magento-cache-clean.el \1/' ;;
               *magento-cache-clean*) grep 'version = "' pkgs/magento-cache-clean/package.nix | sed 's/.*"\(.*\)".*/magento-cache-clean \1/' ;;
             esac
           done | sort -u | paste -sd ', ' -)
