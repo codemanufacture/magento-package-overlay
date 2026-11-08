@@ -3,6 +3,16 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+gh_api() {
+  local auth=()
+  if [ -n "${GITHUB_TOKEN:-}" ]; then
+    auth=(-H "Authorization: Bearer $GITHUB_TOKEN")
+  fi
+  curl -fsSL --retry 5 --retry-all-errors --retry-delay 10 --max-time 30 \
+    -H 'Accept: application/vnd.github+json' "${auth[@]}" \
+    "https://api.github.com/$1"
+}
+
 update_n98_magerun2() {
   echo "Checking n98-magerun2..."
   local pkg_file="$SCRIPT_DIR/pkgs/n98-magerun2/package.nix"
@@ -10,7 +20,7 @@ update_n98_magerun2() {
   current_version=$(grep 'version = "' "$pkg_file" | head -1 | sed 's/.*version = "\(.*\)".*/\1/')
 
   local latest_version
-  latest_version=$(curl -sL https://api.github.com/repos/netz98/n98-magerun2/releases/latest | jq -r .tag_name)
+  latest_version=$(gh_api repos/netz98/n98-magerun2/releases/latest | jq -er .tag_name)
 
   if [ "$current_version" = "$latest_version" ]; then
     echo "n98-magerun2 is up to date at $current_version"
@@ -53,9 +63,9 @@ update_magento_cache_clean() {
   current_rev=$(grep 'rev = "' "$pkg_file" | sed 's/.*rev = "\(.*\)".*/\1/')
 
   local latest_commit
-  latest_commit=$(curl -sL 'https://api.github.com/repos/mage-os/magento-cache-clean/commits?per_page=1' | jq -r '.[0].sha')
+  latest_commit=$(gh_api 'repos/mage-os/magento-cache-clean/commits?per_page=1' | jq -er '.[0].sha')
   local commit_date
-  commit_date=$(curl -sL "https://api.github.com/repos/mage-os/magento-cache-clean/commits/$latest_commit" | jq -r '.commit.committer.date' | cut -dT -f1)
+  commit_date=$(gh_api "repos/mage-os/magento-cache-clean/commits/$latest_commit" | jq -er '.commit.committer.date' | cut -dT -f1)
 
   if [ "$current_rev" = "$latest_commit" ]; then
     echo "magento-cache-clean is up to date at $current_rev"
@@ -86,9 +96,9 @@ update_magento_cache_clean_el() {
   current_rev=$(grep 'rev = "' "$pkg_file" | sed 's/.*rev = "\(.*\)".*/\1/')
 
   local latest_commit
-  latest_commit=$(curl -sL 'https://api.github.com/repos/emacs-magento/magento-cache-clean.el/commits?per_page=1' | jq -r '.[0].sha')
+  latest_commit=$(gh_api 'repos/emacs-magento/magento-cache-clean.el/commits?per_page=1' | jq -er '.[0].sha')
   local commit_date
-  commit_date=$(curl -sL "https://api.github.com/repos/emacs-magento/magento-cache-clean.el/commits/$latest_commit" | jq -r '.commit.committer.date' | cut -dT -f1)
+  commit_date=$(gh_api "repos/emacs-magento/magento-cache-clean.el/commits/$latest_commit" | jq -er '.commit.committer.date' | cut -dT -f1)
 
   if [ "$current_rev" = "$latest_commit" ]; then
     echo "magento-cache-clean.el is up to date at $current_rev"
